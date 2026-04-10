@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Хип-Хопыч</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <h1>Хип-Хопыч</h1>
+    <p class="subtitle">музыка без фильтров</p>
+  </header>
+
+  <section class="player-section">
+    <h2>🎧 Сейчас играет</h2>
+
+    <div class="player">
+        <p id="track-title">Выбери трек</p>
+      
+        <audio id="audio"></audio>
+      
+        <div class="controls">
+          <button onclick="prevTrack()">⏮</button>
+          <button onclick="play()">▶</button>
+          <button onclick="pause()">⏸</button>
+          <button onclick="nextTrack()">⏭</button>
+        </div>
+      
+        <div class="progress-container" onclick="setProgress(event)">
+          <div class="progress" id="progress"></div>
+        </div>
+      
+        <div class="time">
+          <span id="current-time">0:00</span>
+          <span id="duration">0:00</span>
+        </div>
+      </div>
+    </section>
+
+      <section class="tracks">
+        <h2>Треки</h2>
+      
+        <div class="track" onclick="loadTrack(0)">
+          Оля
+        </div>
+      
+        <div class="track" onclick="loadTrack(1)">
+          Про солнце. Виним Витю Ак
+        </div>
+      
+      </section>
+
+  <section class="about">
+    <h2>Обо мне</h2>
+    <p>
+      Пока бит играет в моих ушах, мне кажется, что не все потеряно.
+    </p>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
