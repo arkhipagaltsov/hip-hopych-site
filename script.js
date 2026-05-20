@@ -12,6 +12,20 @@ const tracks = [
     artist: "Хип-Хопыч",
     mood: "рэп",
     year: "2026"
+  },
+  {
+    src: "Зафиксировать.mp3",
+    name: "Зафиксировать",
+    artist: "Хип-Хопыч",
+    mood: "темный рэп",
+    year: "2026"
+  },
+  {
+    src: "О тебе думал.mp3",
+    name: "О тебе думал",
+    artist: "Хип-Хопыч",
+    mood: "лирика",
+    year: "2026"
   }
 ];
 
@@ -34,6 +48,7 @@ const searchInput = document.getElementById("track-search");
 
 let currentTrack = Number(localStorage.getItem("hipHopychTrack")) || 0;
 let repeatEnabled = false;
+let isSeeking = false;
 
 function getTrack(index) {
   return tracks[index] || tracks[0];
@@ -43,7 +58,7 @@ function loadTrack(index, shouldPlay = false) {
   currentTrack = (index + tracks.length) % tracks.length;
   const track = getTrack(currentTrack);
 
-  audio.src = track.src;
+  audio.src = encodeURI(track.src);
   title.textContent = track.name;
   meta.textContent = `${track.artist} · ${track.mood} · ${track.year}`;
   localStorage.setItem("hipHopychTrack", String(currentTrack));
@@ -76,12 +91,65 @@ function prevTrack() {
   loadTrack(currentTrack - 1, !audio.paused);
 }
 
-function setProgress(event) {
+function setProgressByClientX(clientX) {
   if (!audio.duration) return;
 
   const bounds = progressContainer.getBoundingClientRect();
-  const clickX = event.clientX - bounds.left;
-  audio.currentTime = (clickX / bounds.width) * audio.duration;
+  const offset = Math.min(Math.max(clientX - bounds.left, 0), bounds.width);
+  audio.currentTime = (offset / bounds.width) * audio.duration;
+  updateProgress();
+}
+
+function startSeek(event) {
+  if (!audio.duration) return;
+
+  isSeeking = true;
+  progressContainer.setPointerCapture(event.pointerId);
+  setProgressByClientX(event.clientX);
+}
+
+function moveSeek(event) {
+  if (!isSeeking) return;
+  setProgressByClientX(event.clientX);
+}
+
+function stopSeek(event) {
+  if (!isSeeking) return;
+
+  isSeeking = false;
+  if (event.pointerId && progressContainer.hasPointerCapture(event.pointerId)) {
+    progressContainer.releasePointerCapture(event.pointerId);
+  }
+}
+
+function startMouseSeek(event) {
+  if (event.button !== 0 || !audio.duration) return;
+
+  isSeeking = true;
+  setProgressByClientX(event.clientX);
+}
+
+function moveMouseSeek(event) {
+  if (!isSeeking) return;
+  setProgressByClientX(event.clientX);
+}
+
+function stopMouseSeek() {
+  isSeeking = false;
+}
+
+function startTouchSeek(event) {
+  if (!audio.duration) return;
+
+  isSeeking = true;
+  setProgressByClientX(event.touches[0].clientX);
+}
+
+function moveTouchSeek(event) {
+  if (!isSeeking || !event.touches.length) return;
+
+  event.preventDefault();
+  setProgressByClientX(event.touches[0].clientX);
 }
 
 function formatTime(time) {
@@ -147,9 +215,9 @@ function createTrackCard(track, index) {
 
   const download = document.createElement("a");
   download.className = "track-action";
-  download.href = track.src;
+  download.href = encodeURI(track.src);
   download.download = "";
-  download.textContent = "↓";
+  download.textContent = "⇩";
   download.setAttribute("aria-label", `Скачать ${track.name}`);
 
   actions.append(playButton, download);
@@ -208,16 +276,27 @@ function bindEvents() {
   prevButton.addEventListener("click", prevTrack);
   nextButton.addEventListener("click", () => nextTrack());
   repeatButton.addEventListener("click", toggleRepeat);
-  progressContainer.addEventListener("click", setProgress);
+  progressContainer.addEventListener("pointerdown", startSeek);
+  progressContainer.addEventListener("pointermove", moveSeek);
+  progressContainer.addEventListener("pointerup", stopSeek);
+  progressContainer.addEventListener("pointercancel", stopSeek);
+  progressContainer.addEventListener("mousedown", startMouseSeek);
+  document.addEventListener("mousemove", moveMouseSeek);
+  document.addEventListener("mouseup", stopMouseSeek);
+  progressContainer.addEventListener("touchstart", startTouchSeek, { passive: true });
+  progressContainer.addEventListener("touchmove", moveTouchSeek, { passive: false });
+  document.addEventListener("touchend", stopMouseSeek);
 
   progressContainer.addEventListener("keydown", (event) => {
     if (!audio.duration) return;
 
     if (event.key === "ArrowLeft") {
+      event.preventDefault();
       audio.currentTime = Math.max(0, audio.currentTime - 5);
     }
 
     if (event.key === "ArrowRight") {
+      event.preventDefault();
       audio.currentTime = Math.min(audio.duration, audio.currentTime + 5);
     }
   });

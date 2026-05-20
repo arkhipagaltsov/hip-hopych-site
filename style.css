@@ -1,16 +1,17 @@
 :root {
   color-scheme: dark;
-  --bg: #090909;
-  --panel: #141414;
-  --panel-strong: #1c1c1c;
-  --text: #f4f1ea;
-  --muted: #a8a198;
-  --line: rgba(244, 241, 234, 0.14);
-  --accent: #e9c46a;
-  --accent-strong: #f25f4c;
-  --cyan: #43bccd;
-  --green: #76c893;
-  --shadow: 0 24px 80px rgba(0, 0, 0, 0.36);
+  --bg: #080605;
+  --panel: #130f0d;
+  --panel-strong: #1c1410;
+  --text: #f2ead8;
+  --muted: #b0a28c;
+  --line: rgba(242, 234, 216, 0.16);
+  --accent: #c49a4a;
+  --accent-strong: #8f2d20;
+  --cyan: #58706a;
+  --green: #687244;
+  --rust: #6d1f18;
+  --shadow: 0 26px 90px rgba(0, 0, 0, 0.58);
 }
 
 * {
@@ -25,24 +26,46 @@ body {
   min-height: 100vh;
   margin: 0;
   font-family: Inter, Arial, sans-serif;
-  background:
-    linear-gradient(135deg, rgba(242, 95, 76, 0.18), transparent 32%),
-    linear-gradient(225deg, rgba(67, 188, 205, 0.16), transparent 34%),
-    var(--bg);
+  background: var(--bg);
   color: var(--text);
 }
 
 body::before {
   position: fixed;
+  inset: -12%;
+  z-index: -1;
+  pointer-events: none;
+  content: "";
+  background:
+    linear-gradient(90deg, rgba(8, 6, 5, 0.86), rgba(8, 6, 5, 0.42) 48%, rgba(8, 6, 5, 0.9)),
+    linear-gradient(180deg, rgba(8, 6, 5, 0.3), rgba(8, 6, 5, 0.92)),
+    url("assets/soviet-carpet-bg.png") center / cover no-repeat;
+  filter: contrast(1.05) saturate(0.86);
+  opacity: 0.94;
+  transform: scale(1.04);
+  animation: carpet-drift 38s ease-in-out infinite alternate;
+}
+
+body::after {
+  position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
   content: "";
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 44px 44px;
-  mask-image: linear-gradient(to bottom, black, transparent 82%);
+  background:
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 4px),
+    radial-gradient(circle at 50% 10%, transparent 0 18%, rgba(0, 0, 0, 0.56) 72%);
+  mix-blend-mode: screen;
+  opacity: 0.32;
+}
+
+@keyframes carpet-drift {
+  0% {
+    background-position: center 46%;
+  }
+  100% {
+    background-position: center 58%;
+  }
 }
 
 a {
@@ -84,10 +107,13 @@ main {
   height: 40px;
   place-items: center;
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: var(--accent);
-  color: #15110a;
-  font-size: 13px;
+  border-radius: 6px;
+  background:
+    linear-gradient(#1a1410 0 24%, var(--accent) 24% 68%, #1a1410 68%),
+    #1a1410;
+  color: #17100a;
+  font-size: 12px;
+  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.35);
 }
 
 .site-nav {
@@ -95,13 +121,14 @@ main {
   gap: 8px;
   padding: 6px;
   border: 1px solid var(--line);
-  border-radius: 12px;
-  background: rgba(20, 20, 20, 0.7);
+  border-radius: 8px;
+  background: rgba(12, 9, 7, 0.76);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.35);
 }
 
 .site-nav a {
   padding: 10px 13px;
-  border-radius: 8px;
+  border-radius: 6px;
   color: var(--muted);
   font-size: 14px;
   font-weight: 700;
@@ -109,8 +136,8 @@ main {
 
 .site-nav a:hover,
 .site-nav a.active {
-  background: var(--text);
-  color: #111;
+  background: var(--accent);
+  color: #17100a;
 }
 
 .hero,
@@ -184,7 +211,7 @@ h1 {
   justify-content: center;
   min-height: 44px;
   border: 1px solid transparent;
-  border-radius: 8px;
+  border-radius: 6px;
   cursor: pointer;
   font-weight: 800;
 }
@@ -194,14 +221,15 @@ h1 {
 }
 
 .button.primary {
-  background: var(--accent);
+  background: linear-gradient(180deg, #d3aa59, #9e752f);
   color: #15110a;
+  box-shadow: 0 8px 0 rgba(0, 0, 0, 0.32);
 }
 
 .button.secondary,
 .small-button {
   border-color: var(--line);
-  background: rgba(244, 241, 234, 0.06);
+  background: rgba(20, 13, 9, 0.72);
   color: var(--text);
 }
 
@@ -212,10 +240,11 @@ h1 {
   place-items: center;
   overflow: hidden;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 6px;
   background:
-    linear-gradient(145deg, rgba(233, 196, 106, 0.16), transparent 36%),
-    linear-gradient(315deg, rgba(67, 188, 205, 0.18), transparent 38%),
+    linear-gradient(145deg, rgba(143, 45, 32, 0.36), transparent 42%),
+    linear-gradient(315deg, rgba(88, 112, 106, 0.18), transparent 40%),
+    url("assets/soviet-carpet-bg.png") center / cover,
     #111;
   box-shadow: var(--shadow);
 }
@@ -227,49 +256,64 @@ h1 {
 }
 
 .stage-visual::before {
-  inset: 11%;
-  border: 1px solid rgba(244, 241, 234, 0.16);
-  transform: rotate(-6deg);
+  inset: 9%;
+  border: 1px solid rgba(242, 234, 216, 0.12);
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.48), rgba(0, 0, 0, 0.18)),
+    repeating-linear-gradient(90deg, transparent 0 18px, rgba(255, 255, 255, 0.035) 18px 19px);
+  transform: rotate(-2deg);
 }
 
 .stage-visual::after {
-  right: 10%;
-  bottom: 12%;
-  width: 45%;
+  right: 9%;
+  bottom: 10%;
+  width: 58%;
   height: 2px;
-  background: var(--accent-strong);
+  background: linear-gradient(90deg, transparent, var(--accent-strong), transparent);
 }
 
 .record {
   position: relative;
   display: grid;
-  width: min(72vw, 330px);
-  aspect-ratio: 1;
+  width: min(76vw, 370px);
+  aspect-ratio: 1.55;
   place-items: center;
-  border: 16px solid #070707;
-  border-radius: 50%;
+  border: 12px solid #080706;
+  border-radius: 14px;
   background:
-    repeating-radial-gradient(circle, #171717 0 10px, #0c0c0c 11px 15px),
+    linear-gradient(180deg, #17120f, #070605),
     #0b0b0b;
   box-shadow: 0 24px 70px rgba(0, 0, 0, 0.45);
 }
 
 .record::before {
   position: absolute;
-  width: 35%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: var(--accent);
+  inset: 20% 9%;
+  border: 2px solid rgba(242, 234, 216, 0.15);
+  border-radius: 8px;
+  background:
+    radial-gradient(circle at 25% 50%, #0b0b0b 0 22px, #9b8a73 23px 28px, #0b0b0b 29px 44px, transparent 45px),
+    radial-gradient(circle at 75% 50%, #0b0b0b 0 22px, #9b8a73 23px 28px, #0b0b0b 29px 44px, transparent 45px),
+    linear-gradient(90deg, transparent 0 34%, rgba(196, 154, 74, 0.56) 34% 66%, transparent 66%),
+    rgba(242, 234, 216, 0.06);
   content: "";
 }
 
 .record-label {
   position: relative;
   z-index: 1;
+  display: grid;
+  min-width: 128px;
+  min-height: 34px;
+  place-items: center;
+  border: 1px solid rgba(0, 0, 0, 0.54);
+  border-radius: 4px;
+  background: rgba(196, 154, 74, 0.84);
   color: #17100a;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 900;
   text-transform: uppercase;
+  transform: rotate(-2deg);
 }
 
 .wave-bars {
@@ -284,8 +328,8 @@ h1 {
 
 .wave-bars span {
   width: 9px;
-  border-radius: 999px;
-  background: var(--cyan);
+  border-radius: 2px 2px 0 0;
+  background: var(--accent);
   animation: pulse 1.4s ease-in-out infinite;
 }
 
@@ -338,8 +382,10 @@ h1 {
 .mini-player,
 .catalog-panel {
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: rgba(20, 20, 20, 0.82);
+  border-radius: 6px;
+  background:
+    linear-gradient(180deg, rgba(24, 17, 13, 0.9), rgba(9, 7, 6, 0.9)),
+    rgba(20, 20, 20, 0.82);
   box-shadow: var(--shadow);
 }
 
@@ -349,8 +395,9 @@ h1 {
   place-items: center;
   overflow: hidden;
   background:
-    linear-gradient(160deg, rgba(242, 95, 76, 0.26), transparent 46%),
-    linear-gradient(20deg, rgba(118, 200, 147, 0.2), transparent 40%),
+    linear-gradient(160deg, rgba(109, 31, 24, 0.48), transparent 46%),
+    linear-gradient(20deg, rgba(88, 112, 106, 0.22), transparent 40%),
+    url("assets/soviet-carpet-bg.png") center / cover,
     #151515;
 }
 
@@ -362,14 +409,18 @@ h1 {
 .player-art span {
   display: grid;
   width: min(70%, 260px);
-  aspect-ratio: 1;
+  aspect-ratio: 1.3;
   place-items: center;
   border: 1px solid var(--line);
-  border-radius: 50%;
-  background: #0b0b0b;
+  border-radius: 10px;
+  background:
+    radial-gradient(circle at 26% 50%, #0b0b0b 0 25px, #7e705f 26px 31px, #0b0b0b 32px 47px, transparent 48px),
+    radial-gradient(circle at 74% 50%, #0b0b0b 0 25px, #7e705f 26px 31px, #0b0b0b 32px 47px, transparent 48px),
+    linear-gradient(180deg, #201815, #090807);
   color: var(--accent);
-  font-size: clamp(48px, 12vw, 104px);
+  font-size: clamp(44px, 10vw, 86px);
   font-weight: 900;
+  text-shadow: 2px 3px 0 rgba(0, 0, 0, 0.5);
 }
 
 .player,
@@ -420,11 +471,20 @@ h1 {
 }
 
 .progress-container {
-  height: 10px;
-  overflow: hidden;
+  position: relative;
+  height: 14px;
+  overflow: visible;
   border-radius: 999px;
-  background: rgba(244, 241, 234, 0.14);
-  cursor: pointer;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.46), rgba(255, 255, 255, 0.06)),
+    rgba(242, 234, 216, 0.13);
+  cursor: grab;
+  touch-action: none;
+  box-shadow: inset 0 1px 5px rgba(0, 0, 0, 0.62);
+}
+
+.progress-container:active {
+  cursor: grabbing;
 }
 
 .progress-container:focus-visible {
@@ -433,10 +493,25 @@ h1 {
 }
 
 .progress {
+  position: relative;
   width: 0%;
   height: 100%;
   border-radius: inherit;
-  background: linear-gradient(90deg, var(--accent), var(--accent-strong));
+  background: linear-gradient(90deg, var(--accent), #b03a2a);
+}
+
+.progress::after {
+  position: absolute;
+  top: 50%;
+  right: -9px;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #0b0806;
+  border-radius: 50%;
+  background: #e0c079;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.55);
+  content: "";
+  transform: translateY(-50%);
 }
 
 .controls {
@@ -452,10 +527,13 @@ h1 {
   display: grid;
   place-items: center;
   border: 1px solid var(--line);
-  border-radius: 999px;
-  background: rgba(244, 241, 234, 0.07);
+  border-radius: 7px;
+  background:
+    linear-gradient(180deg, rgba(242, 234, 216, 0.1), rgba(0, 0, 0, 0.18)),
+    rgba(31, 23, 18, 0.86);
   color: var(--text);
   cursor: pointer;
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.34);
 }
 
 .icon-button {
@@ -468,7 +546,7 @@ h1 {
 .play-button {
   width: 70px;
   height: 70px;
-  background: var(--accent);
+  background: linear-gradient(180deg, #d3aa59, #956d2f);
   color: #15110a;
   font-size: 24px;
 }
@@ -533,8 +611,10 @@ input[type="range"] {
   align-items: center;
   padding: 16px;
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: rgba(20, 20, 20, 0.72);
+  border-radius: 6px;
+  background:
+    linear-gradient(90deg, rgba(109, 31, 24, 0.18), transparent 48%),
+    rgba(14, 11, 9, 0.82);
   transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
 }
 
@@ -544,7 +624,9 @@ input[type="range"] {
 
 .track-card.active {
   border-color: var(--accent);
-  background: rgba(233, 196, 106, 0.09);
+  background:
+    linear-gradient(90deg, rgba(196, 154, 74, 0.18), rgba(109, 31, 24, 0.12)),
+    rgba(14, 11, 9, 0.9);
 }
 
 .track-number {
@@ -552,8 +634,8 @@ input[type="range"] {
   width: 36px;
   height: 36px;
   place-items: center;
-  border-radius: 8px;
-  background: rgba(244, 241, 234, 0.08);
+  border-radius: 5px;
+  background: rgba(196, 154, 74, 0.12);
   color: var(--accent);
   font-weight: 800;
 }
@@ -581,10 +663,13 @@ input[type="range"] {
   height: 42px;
   place-items: center;
   border: 1px solid var(--line);
-  border-radius: 8px;
-  background: rgba(244, 241, 234, 0.06);
+  border-radius: 6px;
+  background:
+    linear-gradient(180deg, rgba(242, 234, 216, 0.08), rgba(0, 0, 0, 0.16)),
+    rgba(24, 17, 13, 0.84);
   color: var(--text);
   cursor: pointer;
+  font-weight: 900;
 }
 
 .track-action:hover {
