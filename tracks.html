@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Каталог доступных треков Хип-Хопыча с быстрым прослушиванием и скачиванием.">
+  <title>Каталог треков | Хип-Хопыч</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="tracks">
+  <header class="site-header">
+    <a class="logo" href="index.html" aria-label="Хип-Хопыч на главную">
+      <span class="logo-mark">HH</span>
+      <span>Хип-Хопыч</span>
+    </a>
+
+    <nav class="site-nav" aria-label="Главная навигация">
+      <a href="index.html">Главная</a>
+      <a class="active" href="tracks.html">Каталог треков</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="catalog-hero">
+      <p class="eyebrow">Каталог</p>
+      <h1>Доступные треки</h1>
+      <p>Все релизы, которые уже лежат на сайте. Можно слушать сразу, переключаться между треками и скачивать файлы.</p>
+    </section>
+
+    <section class="catalog-layout" aria-label="Каталог треков">
+      <aside class="mini-player" id="player">
+        <div class="player-art small" aria-hidden="true">
+          <span>HH</span>
+        </div>
+        <div class="now-playing">
+          <p class="label">Сейчас играет</p>
+          <h2 id="track-title">Загрузка...</h2>
+          <p id="track-meta" class="track-meta">Хип-Хопыч</p>
+        </div>
+
+        <audio id="audio" preload="metadata"></audio>
+
+        <div class="progress-wrap">
+          <button class="time-button" id="current-time" type="button" aria-label="Текущее время">0:00</button>
+          <div class="progress-container" id="progress-container" role="slider" aria-label="Перемотка трека" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
+            <div class="progress" id="progress"></div>
+          </div>
+          <button class="time-button" id="duration" type="button" aria-label="Длительность">0:00</button>
+        </div>
+
+        <div class="controls" aria-label="Управление плеером">
+          <button class="icon-button" id="prev-btn" type="button" aria-label="Предыдущий трек">‹</button>
+          <button class="play-button" id="play-toggle" type="button" aria-label="Воспроизвести">▶</button>
+          <button class="icon-button" id="next-btn" type="button" aria-label="Следующий трек">›</button>
+        </div>
+
+        <div class="player-options">
+          <label class="volume-control">
+            <span>Громкость</span>
+            <input id="volume" type="range" min="0" max="1" step="0.01" value="0.85">
+          </label>
+          <button class="small-button" id="repeat-btn" type="button" aria-pressed="false">Повтор выкл.</button>
+        </div>
+      </aside>
+
+      <div class="catalog-panel">
+        <div class="catalog-toolbar">
+          <div>
+            <p class="eyebrow">Библиотека</p>
+            <h2>Список треков</h2>
+          </div>
+          <label class="search-field">
+            <span>Поиск</span>
+            <input id="track-search" type="search" placeholder="Название трека">
+          </label>
+        </div>
+
+        <div class="track-list" id="catalog-track-list"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>Хип-Хопыч</span>
+    <span>Каталог треков</span>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
